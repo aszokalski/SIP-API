@@ -54,7 +54,7 @@ def przystanek(id):
     
 
 #api
-@app.route('/sip/api/v1.0/przystanek/<int:task_id>', methods=['GET'])
+@app.route('/sip/api/v1.1/przystanek/<int:task_id>', methods=['GET'])
 def get_task(task_id):
     dat = przystanek(task_id)
     if type(dat) is int:
@@ -74,4 +74,3 @@ def not_found(error):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
