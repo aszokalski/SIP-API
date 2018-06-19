@@ -1,4 +1,4 @@
-# SIPapi
+# SIP-API
 Nieoficjalne API Systemu Informacji Pasażerskiej w Warszawie.
 
 Wersja: v1.0
