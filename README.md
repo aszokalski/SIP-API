@@ -1,7 +1,7 @@
 # SIP-API
 Nieoficjalne API Systemu Informacji Pasażerskiej w Warszawie.
 
-Wersja: v1.0
+Wersja: v1.1
 
 Stan: Produkcja (offline)
 # Przygotowanie
@@ -14,11 +14,11 @@ Stan: Produkcja (offline)
 
 Wyjście: 
 ### Przykład
-Wersja API = v1.0
+Wersja API = v1.1
 
 ID przystanku = 605905 (Metro Młociny [05])
 
-`curl 127.0.0.1:5000/sip/api/v1.0/przystanek/605905`
+`curl 127.0.0.1:5000/sip/api/v1.1/przystanek/605905`
 
 Wyjście: 
 ``` JSON
@@ -57,7 +57,12 @@ Wyjście:
   ]
 }
 ````
-Oczywistym problemem wersji v1.0 jest brak polskich znaków, które zamierzam dodać w następnej wersji API. Pierwsza wersja również nie posiada, żadnych zabezpieczeń przed nieprawidłowym ID.
+Oczywistym problemem wersji v1.0 jest brak polskich znaków, które zamierzam dodać w następnej wersji API. 
+
+UPDATE 1: Zająłem się polskimi znakami i okazało się, że scrapper je odczytuje, program również nie ma z nimi problemu. Problem pojawia się dopiero przy konwersji na JSON. Spróbuję to naprawić.
+
+## Zabezpieczenia
+Jeśli użytkownik dostarczy nieprawidłowy numer identyfikacyjny przystanku to API zwróci error 404.
 
 ## Jak zdobyć ID przystanku?
 Wystarczy wejść na stronę https://tw.waw.pl/sip/#/wg-przystankow i wybrać przystanek, który nas interesuje. Jak załaduje nam się strona to ID znajduje się w linku. `https://tw.waw.pl/sip/#/przystanek/{ID}`
