@@ -8,7 +8,7 @@ Stan: Produkcja (offline)
 1.  Pobierz i wypakuj api.py.
 2.  Pobierz chromedriver z http://chromedriver.chromium.org
 3.  W pliku api.py zmień `{path-to-chromedriver}`
-# API v1.0
+# API v1.1
 ## Pobierz tabelę tramwajów nadjeżdżających na dany przystanek w formacie JSON
 `/sip/api/{wersja API}/przystanek/{numer identyfikacyjny przystanku}`
 
