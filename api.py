@@ -12,14 +12,15 @@ from flask import Flask, jsonify, abort, make_response
 
 #initial variables
 app = Flask(__name__)
+version = 1.1
 
 #functions
 def przystanek(id):
     try:
-        browser = webdriver.Chrome('/Users/adamszokalski/chromedriver')
+        browser = webdriver.Chrome('{path-to-chromedriver}')
         browser.set_window_size(1120, 550)
         browser.get('https://tw.waw.pl/sip/?#/przystanek/'+str(id))
-        element = WebDriverWait(browser, 12).until(
+        element = WebDriverWait(browser, 6).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'sip-timetable-content'))
         )
     except:
@@ -29,16 +30,23 @@ def przystanek(id):
     else:
         try:
             array = '{"'+str(id)+'": [ '
-            for i in range(2,8):
+            search = 1
+            i = 1
+            while(search):
+                i += 1
                 dir = "//div[@class='sip-timetable-content']/table[1]/tbody[1]/tr["+str(i)+"]"
-                linia = int(browser.find_element_by_xpath(dir+"/td[1]").text)
-                kierunek = browser.find_element_by_xpath(dir+"/td[2]").text
-                czas = browser.find_element_by_xpath(dir+"/td[5]").text
-                array += '{"linia": "'+str(linia)+'", "kierunek": "'+str(kierunek)+'", "czas_do_odjazdu": "'+str(czas)+'"}'
-                if (i != 7):
+                try:
+                    linia = int(browser.find_element_by_xpath(dir+"/td[1]").text)
+                except:
+                    search = 0
+                    array = array[:-1]
+                else:
+                    kierunek = browser.find_element_by_xpath(dir+"/td[2]").text
+                    czas = browser.find_element_by_xpath(dir+"/td[5]").text
+                    array += '{"linia": "'+str(linia)+'", "kierunek": "'+str(kierunek)+'", "czas_do_odjazdu": "'+str(czas)+'"}'
                     array += ','
-                browser.quit()
-                array += ' ] }'
+            browser.quit()
+            array += ' ] }'
         except:
             browser.quit()
             print ("Not found:", sys.exc_info()[0])
@@ -50,11 +58,11 @@ def przystanek(id):
             except:
                 print ("JSON error:", sys.exc_info()[0])
                 return -2
-            
-    
+
+
 
 #api
-@app.route('/sip/api/v1.1/przystanek/<int:task_id>', methods=['GET'])
+@app.route('/sip/api/v'+str(version)+'/przystanek/<int:task_id>', methods=['GET'])
 def get_task(task_id):
     dat = przystanek(task_id)
     if type(dat) is int:
